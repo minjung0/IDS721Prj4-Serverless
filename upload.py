@@ -1,7 +1,13 @@
-import boto3
+from google.cloud import storage
 
-# Create an S3 client
-s3 = boto3.client('s3')
+# Set your GCP credentials
+storage_client = storage.Client.from_service_account_json('service_account.json')
 
-# Upload the file to S3
-s3.upload_file('parasite.csv', 'my-bucket', 'parasite.csv')
+# Set the name of the bucket and the name of the file you want to upload
+bucket_name = 'ids721-prj4'
+file_name = 'parasite.csv'
+
+# Upload the file to the bucket
+bucket = storage_client.bucket(bucket_name)
+blob = bucket.blob(file_name)
+blob.upload_from_filename(file_name)
